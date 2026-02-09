@@ -17,7 +17,7 @@ A website to track destinations you've visited.
 - getLandmarks()
 - getSummary()
 
----
+
 
 ## TDD Tests
 
