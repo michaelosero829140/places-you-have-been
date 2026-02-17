@@ -46,57 +46,37 @@ PlaceTracker.prototype.deletePlace = function (id) {
 
 const tracker = new PlaceTracker();
 
-function displayPlaces() {
+document.addEventListener("DOMContentLoaded", function () {
+
+  const form = document.getElementById("place-form");
   const placesList = document.getElementById("places-list");
-  placesList.innerHTML = "";
 
-  Object.values(tracker.places).forEach(function(place) {
-    const li = document.createElement("li");
-    li.textContent = place.getSummary();
-    li.setAttribute("data-id", place.id);
-    placesList.appendChild(li);
+  function displayPlaces() {
+    placesList.innerHTML = "";
+
+    Object.values(tracker.places).forEach(function (place) {
+      const li = document.createElement("li");
+      li.textContent = place.location + " (" + place.timeOfYear + ")";
+      li.setAttribute("data-id", place.id);
+      placesList.appendChild(li);
+    });
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const location = document.getElementById("location").value;
+    const landmarks = document.getElementById("landmarks").value;
+    const timeOfYear = document.getElementById("timeOfYear").value;
+    const notes = document.getElementById("notes").value;
+
+    const newPlace = new Place(location, landmarks, timeOfYear, notes);
+    tracker.addPlace(newPlace);
+
+    displayPlaces();   // 👈 This makes it show on the page
+
+    form.reset();
   });
-}
 
-function displayDetails(id) {
-  const place = tracker.findPlace(id);
-  const detailsDiv = document.getElementById("place-details");
-
-  if (place) {
-    detailsDiv.innerHTML = `
-      <h3>${place.location}</h3>
-      <p><strong>Landmarks:</strong> ${place.landmarks}</p>
-      <p><strong>Time of Year:</strong> ${place.timeOfYear}</p>
-      <p><strong>Notes:</strong> ${place.notes}</p>
-      <button id="delete-btn">Delete</button>
-    `;
-
-    document.getElementById("delete-btn").onclick = function () {
-      tracker.deletePlace(id);
-      displayPlaces();
-      detailsDiv.innerHTML = "";
-    };
-  }
-}
-
-document.getElementById("place-form").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const location = document.getElementById("location").value;
-  const landmarks = document.getElementById("landmarks").value;
-  const timeOfYear = document.getElementById("timeOfYear").value;
-  const notes = document.getElementById("notes").value;
-
-  const newPlace = new Place(location, landmarks, timeOfYear, notes);
-  tracker.addPlace(newPlace);
-
-  displayPlaces();
-  this.reset();
 });
 
-document.getElementById("places-list").addEventListener("click", function(event) {
-  const id = parseInt(event.target.getAttribute("data-id"));
-  if (id) {
-    displayDetails(id);
-  }
-});
