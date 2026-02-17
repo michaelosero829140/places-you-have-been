@@ -34,9 +34,6 @@ PlaceTracker.prototype.findPlace = function (id) {
   }
   return false;
 };
-tracker.addPlace(newPlace);
-displayPlaces();   // 👈 This must be here
-
 PlaceTracker.prototype.deletePlace = function (id) {
   if (this.places[id] === undefined) {
     return false;
