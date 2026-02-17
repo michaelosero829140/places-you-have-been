@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const newPlace = new Place(location, landmarks, timeOfYear, notes);
     tracker.addPlace(newPlace);
 
-    displayPlaces();   // 👈 This makes it show on the page
+      displayPlaces();   // 👈 This makes it show on the page
 
     form.reset();
   });
